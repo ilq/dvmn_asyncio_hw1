@@ -26,19 +26,16 @@ def get_frames_from_files(filenames):
 
 
 async def animate_spaceship(canvas, row, column, frames):
-    last_frame = ''
     canvas.nodelay(True)
-    last_row, last_column = (row, column)
     rows_number, columns_number = canvas.getmaxyx()
 
     while True:
         for frame in frames:
-            draw_frame(canvas, last_row, last_column, last_frame, negative=True)
             draw_frame(canvas, row, column, frame)
-            
-            last_frame = frame
+            await asyncio.sleep(0)
+            draw_frame(canvas, row, column, frame, negative=True)
             last_row, last_column = (row, column)
-            frame_rows, frame_columns = get_frame_size(last_frame)
+            frame_rows, frame_columns = get_frame_size(frame)
             
             rows_direction, columns_direction, space_pressed = read_controls(canvas)
             
@@ -50,7 +47,6 @@ async def animate_spaceship(canvas, row, column, frames):
                 column < 0 or \
                 column + frame_columns > columns_number:
                 row, column = (last_row, last_column)
-            await asyncio.sleep(0)
 
 
 def get_frame_size(text):
