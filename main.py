@@ -42,9 +42,9 @@ async def animate_spaceship(canvas, row, column, frames):
             row += rows_direction
             column += columns_direction
 
-            if row < 0 or row + frame_rows > rows_number:
+            if row < 1 or row + frame_rows > rows_number - 1:
                 row = last_row
-            if column < 0 or column + frame_columns > columns_number:
+            if column < 1 or column + frame_columns > columns_number - 1:
                 column = last_column
 
 
@@ -171,8 +171,8 @@ def generation_stars(canvas):
     rand_yx_original = []
     for n in range(COUNT_STARS):
         while True:
-            rand_y = random.randint(1, max_y-1)
-            rand_x = random.randint(1, max_x-1)
+            rand_y = random.randint(1, max_y-2)
+            rand_x = random.randint(1, max_x-2)
             if (rand_y, rand_x) not in rand_yx_original:
                 rand_yx_original.append((rand_y, rand_x))
                 break
@@ -185,6 +185,7 @@ def generation_stars(canvas):
 def draw(canvas):
     curses.curs_set(False)
     canvas.nodelay(True)
+    canvas.border()
     max_y, max_x = canvas.getmaxyx()
     coroutines = []
     
