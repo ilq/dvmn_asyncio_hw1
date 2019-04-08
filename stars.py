@@ -22,7 +22,6 @@ def generation_stars(canvas):
 
 
 async def blink(canvas, row, column, symbol='*', offset_tics=0):
-    tics_per_second = round(1/(TIC_TIMEOUT*10))*10
     blink_attr_times = [
         {'attr': curses.A_DIM, 'time': 2},
         {'attr': curses.A_NORMAL, 'time': 0.3},
@@ -36,6 +35,6 @@ async def blink(canvas, row, column, symbol='*', offset_tics=0):
 
         for state in blink_attr_times:
             canvas.addstr(row, column, symbol, state['attr'])
-            tics = int(state['time']*tics_per_second)
+            tics = int(state['time']/TIC_TIMEOUT)
             for n in range(tics):
                 await asyncio.sleep(0)
