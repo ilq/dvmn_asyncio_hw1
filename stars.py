@@ -5,7 +5,7 @@ import random
 from settings import *
 
 def generate_stars(canvas):
-    coroutines_stars = []
+    stars_coroutines = []
     max_y, max_x = canvas.getmaxyx()
     rand_yx_original = []
     for n in range(COUNT_STARS):
@@ -17,8 +17,8 @@ def generate_stars(canvas):
                 break
         symbol = random.choice('+*.:')
         offset_tics = random.randint(0, 10)
-        coroutines_stars.append(blink(canvas, rand_y, rand_x, symbol, offset_tics))
-    return coroutines_stars
+        stars_coroutines.append(blink(canvas, rand_y, rand_x, symbol, offset_tics))
+    return stars_coroutines
 
 
 async def blink(canvas, row, column, symbol='*', offset_tics=0):

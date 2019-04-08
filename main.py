@@ -28,11 +28,11 @@ def draw(canvas):
     
     draw_fire(canvas)
 
-    coroutines_stars = generate_stars(canvas)
-    coroutine_ship = animate_spaceship(canvas, 20, 20, rocket_frames)
+    stars_coroutines = generate_stars(canvas)
+    ship_coroutine = animate_spaceship(canvas, 20, 20, rocket_frames)
     
-    coroutines.extend(coroutines_stars)
-    coroutines.append(coroutine_ship)
+    coroutines.extend(stars_coroutines)
+    coroutines.append(ship_coroutine)
 
     while coroutines:
         for coroutine in coroutines:
