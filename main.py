@@ -200,7 +200,7 @@ def draw(canvas):
     coroutines.extend(coroutines_stars)
     coroutines.append(coroutine_ship)
 
-    while True:
+    while coroutines:
         for coroutine in coroutines:
             try:
                 coroutine.send(None)
@@ -208,8 +208,7 @@ def draw(canvas):
             except StopIteration:
                 coroutines.remove(couroutine)
         time.sleep(TIC_TIMEOUT)
-        if len(coroutines) == 0:
-            break
+
 
 if __name__ == '__main__':
     curses.update_lines_cols()
