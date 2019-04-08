@@ -28,7 +28,7 @@ def draw(canvas):
     
     draw_fire(canvas)
 
-    coroutines_stars = generation_stars(canvas)
+    coroutines_stars = generate_stars(canvas)
     coroutine_ship = animate_spaceship(canvas, 20, 20, rocket_frames)
     
     coroutines.extend(coroutines_stars)

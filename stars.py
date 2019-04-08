@@ -4,7 +4,7 @@ import random
 
 from settings import *
 
-def generation_stars(canvas):
+def generate_stars(canvas):
     coroutines_stars = []
     max_y, max_x = canvas.getmaxyx()
     rand_yx_original = []
