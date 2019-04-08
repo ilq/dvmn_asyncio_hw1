@@ -26,13 +26,13 @@ def draw(canvas):
 
     rocket_frames = get_frames_from_files(ROCKET_FRAME_FILES)
     
-    draw_fire(canvas)
-
+    fire_coroutine = fire(canvas, max_y / 2, max_x / 2, columns_speed=0)
     stars_coroutines = generate_stars(canvas)
     ship_coroutine = animate_spaceship(canvas, 20, 20, rocket_frames)
     
     coroutines.extend(stars_coroutines)
     coroutines.append(ship_coroutine)
+    coroutines.append(fire_coroutine)
 
     while coroutines:
         for coroutine in coroutines:
@@ -40,7 +40,7 @@ def draw(canvas):
                 coroutine.send(None)
                 canvas.refresh()
             except StopIteration:
-                coroutines.remove(couroutine)
+                coroutines.remove(coroutine)
         time.sleep(TIC_TIMEOUT)
 
 
