@@ -17,16 +17,16 @@ ROCKET_FRAME_FILES = [
     'frames/rocket_frame_2.txt',
     ] 
 
+
 def get_frames_from_files(filenames):
     frames = []
     for filename in filenames:
         with open(filename) as f:
-            frames.append(''.join(f.readlines()))
+            frames.append(f.read())
     return frames
 
 
 async def animate_spaceship(canvas, row, column, frames):
-    canvas.nodelay(True)
     rows_number, columns_number = canvas.getmaxyx()
 
     while True:
@@ -42,11 +42,10 @@ async def animate_spaceship(canvas, row, column, frames):
             row += rows_direction
             column += columns_direction
 
-            if  row < 0 or \
-                row + frame_rows > rows_number or \
-                column < 0 or \
-                column + frame_columns > columns_number:
-                row, column = (last_row, last_column)
+            if row < 0 or row + frame_rows > rows_number:
+                row = last_row
+            if column < 0 or column + frame_columns > columns_number:
+                column = last_column
 
 
 def get_frame_size(text):
@@ -134,8 +133,8 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0
         column += columns_speed
 
 
-async def blink(canvas, row, column, symbol='*'):
-    tic_per_second = round(1/(TIC_TIMEOUT*10))*10
+async def blink(canvas, row, column, symbol='*', offset_tics=0):
+    tics_per_second = round(1/(TIC_TIMEOUT*10))*10
     blink_attr_times = [
         {'attr': curses.A_DIM, 'time': 2},
         {'attr': curses.A_NORMAL, 'time': 0.3},
@@ -144,12 +143,12 @@ async def blink(canvas, row, column, symbol='*'):
     ]
 
     while True:
-        for n in range(random.randint(0, 1*tic_per_second)):
+        for n in range(offset_tics):
             await asyncio.sleep(0)
 
         for state in blink_attr_times:
             canvas.addstr(row, column, symbol, state['attr'])
-            tics = int(state['time']*tic_per_second)
+            tics = int(state['time']*tics_per_second)
             for n in range(tics):
                 await asyncio.sleep(0)
 
@@ -178,12 +177,14 @@ def generation_stars(canvas):
                 rand_yx_original.append((rand_y, rand_x))
                 break
         symbol = random.choice('+*.:')
-        coroutines_stars.append(blink(canvas, rand_y, rand_x, symbol))
+        offset_tics = random.randint(0, 10)
+        coroutines_stars.append(blink(canvas, rand_y, rand_x, symbol, offset_tics))
     return coroutines_stars
 
 
 def draw(canvas):
     curses.curs_set(False)
+    canvas.nodelay(True)
     max_y, max_x = canvas.getmaxyx()
     coroutines = []
     
