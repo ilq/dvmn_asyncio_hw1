@@ -23,11 +23,10 @@ def draw(canvas):
     max_y, max_x = canvas.getmaxyx()
     coroutines = []
     
-
-    rocket_frames = get_frames_from_files(ROCKET_FRAME_FILES)
-    
     fire_coroutine = fire(canvas, max_y / 2, max_x / 2, columns_speed=0)
     stars_coroutines = generate_stars(canvas)
+
+    rocket_frames = get_frames_from_files(ROCKET_FRAME_FILES)
     ship_coroutine = animate_spaceship(canvas, 20, 20, rocket_frames)
     
     coroutines.extend(stars_coroutines)
@@ -44,6 +43,9 @@ def draw(canvas):
         time.sleep(TIC_TIMEOUT)
 
 
-if __name__ == '__main__':
+def main():
     curses.update_lines_cols()
     curses.wrapper(draw)
+
+if __name__ == '__main__':
+    main()
