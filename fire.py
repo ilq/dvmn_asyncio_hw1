@@ -2,8 +2,6 @@ import time
 import asyncio
 import curses
 
-from settings import *
-
 async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0):
     """Display animation of gun shot. Direction and speed can be specified."""
 
@@ -32,15 +30,4 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0
         canvas.addstr(round(row), round(column), ' ')
         row += rows_speed
         column += columns_speed
-
-def draw_fire(canvas):
-    max_y, max_x = canvas.getmaxyx()
-    coroutine_fire = fire(canvas, max_y/2, max_x/2, columns_speed=0)
-    while True:
-        try:
-            coroutine_fire.send(None)
-            canvas.refresh()
-        except StopIteration:
-            break
-        time.sleep(TIC_TIMEOUT*0.1)
 
