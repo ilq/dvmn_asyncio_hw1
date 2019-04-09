@@ -1,5 +1,6 @@
-TIC_TIMEOUT = 0.01
+TIC_TIMEOUT = 0.1
 COUNT_STARS = 100
+COUNT_GARBAGE = 5
 
 SPACE_KEY_CODE = 32
 LEFT_KEY_CODE = 260
@@ -11,3 +12,8 @@ ROCKET_FRAME_FILES = [
     'frames/rocket_frame_1.txt',
     'frames/rocket_frame_2.txt',
     ]
+
+GARBAGE_FRAMES = [
+    'frames/trash_large.txt',
+    'frames/trash_small.txt',
+]

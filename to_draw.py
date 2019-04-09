@@ -7,6 +7,14 @@ def get_frame_size(text):
     return rows, columns
 
 
+def get_frames_from_files(filenames):
+    frames = []
+    for filename in filenames:
+        with open(filename) as f:
+            frames.append(f.read())
+    return frames
+
+
 def draw_frame(canvas, start_row, start_column, text, negative=False):
     """Draw multiline text fragment on canvas. Erase text instead of drawing if negative=True is specified."""
 

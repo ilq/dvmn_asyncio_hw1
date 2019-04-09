@@ -1,7 +1,14 @@
 import asyncio
 
-from settings import *
-from to_draw import *
+from settings import \
+    UP_KEY_CODE,\
+    DOWN_KEY_CODE,\
+    RIGHT_KEY_CODE,\
+    LEFT_KEY_CODE,\
+    SPACE_KEY_CODE,\
+    ROCKET_FRAME_FILES
+
+from to_draw import get_frames_from_files, draw_frame, get_frame_size
 
 def read_controls(canvas):
     """Read keys pressed and returns tuple witl controls state."""
@@ -50,3 +57,9 @@ async def animate_spaceship(canvas, row, column, frames):
                 row = last_row
             if column < 1 or column + frame_columns > columns_number - 1:
                 column = last_column
+
+
+def generate_spaceship(canvas):
+    rocket_frames = get_frames_from_files(ROCKET_FRAME_FILES)
+    spacehip_soroutine = animate_spaceship(canvas, 20, 20, rocket_frames)
+    return spacehip_soroutine
