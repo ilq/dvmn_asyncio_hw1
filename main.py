@@ -8,13 +8,13 @@ from fire import *
 from settings import *
 from space_garbage import *
 
+coroutines = []
 
 def draw(canvas):
     curses.curs_set(False)
     canvas.nodelay(True)
     max_y, max_x = canvas.getmaxyx()
-    coroutines = []
-    
+
     fire_coroutine = fire(canvas, max_y / 2, max_x / 2, columns_speed=0)
     stars_coroutines = generate_stars(canvas)
     ship_coroutine = generate_spaceship(canvas)
@@ -33,6 +33,8 @@ def draw(canvas):
                 canvas.refresh()
             except StopIteration:
                 coroutines.remove(coroutine)
+            except (SystemExit, KeyboardInterrupt):
+                exit(0)
         time.sleep(TIC_TIMEOUT)
 
 
