@@ -1,14 +1,14 @@
 import time
-import asyncio
 import curses
-import random
 from stars import *
 from spaceship import *
 from fire import *
 from settings import *
-from space_garbage import *
+import space_garbage
 
-coroutines = []
+# canvas.addstr(4, 2, str(len(coroutines)))
+
+from globalvars import coroutines
 
 def draw(canvas):
     curses.curs_set(False)
@@ -18,11 +18,13 @@ def draw(canvas):
     fire_coroutine = fire(canvas, max_y / 2, max_x / 2, columns_speed=0)
     stars_coroutines = generate_stars(canvas)
     ship_coroutine = generate_spaceship(canvas)
-    garbage_coroutines = generate_garbages(canvas)
+    garbage_coroutines = space_garbage.generate_garbages(canvas)
+    fill_orbit_coroutine = space_garbage.fill_orbit_with_garbage(canvas)
 
     coroutines.extend(stars_coroutines)
     coroutines.append(ship_coroutine)
     coroutines.append(fire_coroutine)
+    coroutines.append(fill_orbit_coroutine)
     coroutines.extend(garbage_coroutines)
 
     while coroutines:
@@ -31,8 +33,10 @@ def draw(canvas):
             try:
                 coroutine.send(None)
                 canvas.refresh()
+                canvas.addstr(10, 5, str(len(coroutines)))
             except StopIteration:
                 coroutines.remove(coroutine)
+                break
             except (SystemExit, KeyboardInterrupt):
                 exit(0)
         time.sleep(TIC_TIMEOUT)
