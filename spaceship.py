@@ -10,6 +10,7 @@ from settings import \
 
 from tools import sleep
 from tools import get_frames_from_files, draw_frame, get_frame_size
+from physics import update_speed
 
 def read_controls(canvas):
     """Read keys pressed and returns tuple witl controls state."""
@@ -41,6 +42,7 @@ def read_controls(canvas):
 
 async def animate_spaceship(canvas, row, column, frames):
     rows_number, columns_number = canvas.getmaxyx()
+    row_speed = column_speed = 0
 
     while True:
         for frame in frames:
@@ -51,9 +53,10 @@ async def animate_spaceship(canvas, row, column, frames):
             frame_rows, frame_columns = get_frame_size(frame)
 
             rows_direction, columns_direction, space_pressed = read_controls(canvas)
+            row_speed, column_speed = update_speed(row_speed, column_speed, rows_direction, columns_direction)
 
-            row += rows_direction
-            column += columns_direction
+            row += row_speed
+            column += column_speed
 
             if row < 1 or row + frame_rows > rows_number - 1:
                 row = last_row
