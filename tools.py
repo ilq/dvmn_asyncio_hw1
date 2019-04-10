@@ -1,3 +1,9 @@
+import asyncio
+
+async def sleep(tics=1):
+    for n in range(tics):
+        await asyncio.sleep(0)
+
 def get_frame_size(text):
     """Calculate size of multiline text fragment. Returns pair (rows number, colums number)"""
 

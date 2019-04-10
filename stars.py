@@ -2,6 +2,7 @@ import asyncio
 import curses
 import random
 
+from tools import sleep
 from settings import *
 
 def generate_stars(canvas):
@@ -30,11 +31,9 @@ async def blink(canvas, row, column, symbol='*', offset_tics=0):
     ]
 
     while True:
-        for n in range(offset_tics):
-            await asyncio.sleep(0)
+        await sleep(offset_tics)
 
         for state in blink_attr_times:
             canvas.addstr(row, column, symbol, state['attr'])
             tics = int(state['time']/TIC_TIMEOUT)
-            for n in range(tics):
-                await asyncio.sleep(0)
+            await sleep(tics)

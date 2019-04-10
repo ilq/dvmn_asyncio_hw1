@@ -8,7 +8,8 @@ from settings import \
     SPACE_KEY_CODE,\
     ROCKET_FRAME_FILES
 
-from to_draw import get_frames_from_files, draw_frame, get_frame_size
+from tools import sleep
+from tools import get_frames_from_files, draw_frame, get_frame_size
 
 def read_controls(canvas):
     """Read keys pressed and returns tuple witl controls state."""
@@ -44,7 +45,7 @@ async def animate_spaceship(canvas, row, column, frames):
     while True:
         for frame in frames:
             draw_frame(canvas, row, column, frame)
-            await asyncio.sleep(0)
+            await sleep(1)
             draw_frame(canvas, row, column, frame, negative=True)
             last_row, last_column = (row, column)
             frame_rows, frame_columns = get_frame_size(frame)

@@ -10,6 +10,7 @@ import space_garbage
 
 from globalvars import coroutines
 
+
 def draw(canvas):
     curses.curs_set(False)
     canvas.nodelay(True)
