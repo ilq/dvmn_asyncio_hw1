@@ -33,7 +33,6 @@ def draw(canvas):
             try:
                 coroutine.send(None)
                 canvas.refresh()
-                canvas.addstr(10, 5, str(len(coroutines)))
             except StopIteration:
                 coroutines.remove(coroutine)
                 break
