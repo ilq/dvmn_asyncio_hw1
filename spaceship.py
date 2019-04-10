@@ -1,5 +1,7 @@
 import asyncio
 
+from globalvars import coroutines
+
 from settings import \
     UP_KEY_CODE,\
     DOWN_KEY_CODE,\
@@ -8,6 +10,7 @@ from settings import \
     SPACE_KEY_CODE,\
     ROCKET_FRAME_FILES
 
+from fire import fire
 from tools import sleep
 from tools import get_frames_from_files, draw_frame, get_frame_size
 from physics import update_speed
@@ -35,7 +38,6 @@ def read_controls(canvas):
 
         if pressed_key_code == SPACE_KEY_CODE:
             space_pressed = True
-            exit(0)
 
     return rows_direction, columns_direction, space_pressed
 
@@ -62,6 +64,10 @@ async def animate_spaceship(canvas, row, column, frames):
                 row = last_row
             if column < 1 or column + frame_columns > columns_number - 1:
                 column = last_column
+            if space_pressed:
+                fire_column = column + frame_columns / 2
+                fire_coroutine = fire(canvas, row, fire_column, columns_speed=0)
+                coroutines.append(fire_coroutine)
 
 
 def generate_spaceship(canvas):
